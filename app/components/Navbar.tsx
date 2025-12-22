@@ -70,7 +70,7 @@ export default function Navbar() {
           {/* LOGO */}
           <Link
             href="/"
-            className="font-bold tracking-wide text-lg text-brand-400"
+            className="font-bold tracking-wide text-lg text-yellow-400"
           >
             CLOTHING.CO
           </Link>

@@ -51,8 +51,7 @@ export default function AccountPage() {
           </p>
           <Link
             href="/"
-            className="inline-block px-6 py-3 rounded-xl font-semibold text-black
-            bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to"
+            className="inline-block px-6 py-3 rounded-xl font-semibold text-black bg-yellow-400 hover:bg-yellow-500 transition"
           >
             Go to Home
           </Link>
@@ -70,10 +69,7 @@ export default function AccountPage() {
         {/* HEADER */}
         <div className="mb-10">
           <h1 className="text-3xl font-bold">
-            My{" "}
-            <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
-              Account
-            </span>
+            My <span className="text-yellow-400">Account</span>
           </h1>
           <p className="text-sm text-gray-500 mt-2">
             Manage your profile, orders and addresses
@@ -85,17 +81,17 @@ export default function AccountPage() {
           <div className="rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-sm">
             <div className="flex justify-center mb-4">
               {user.photoURL ? (
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-brandGradient-from to-brandGradient-to p-[2px]">
+                <div className="w-24 h-24 rounded-full border-2 border-yellow-400 p-1">
                   <Image
                     src={user.photoURL}
                     alt="User Avatar"
                     width={96}
                     height={96}
-                    className="rounded-full bg-white"
+                    className="rounded-full"
                   />
                 </div>
               ) : (
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-brandGradient-from to-brandGradient-to flex items-center justify-center text-white text-2xl font-bold">
+                <div className="w-24 h-24 rounded-full bg-yellow-400 flex items-center justify-center text-black text-2xl font-bold">
                   {user.displayName?.charAt(0) || "U"}
                 </div>
               )}
@@ -109,9 +105,8 @@ export default function AccountPage() {
             <button
               onClick={logout}
               className="mt-6 w-full py-2 rounded-xl text-sm font-semibold
-              border border-brandGradient-from/40 text-brandGradient-from
-              hover:bg-gradient-to-r hover:from-brandGradient-from hover:to-brandGradient-to
-              hover:text-black transition"
+              border border-yellow-400 text-yellow-600
+              hover:bg-yellow-400 hover:text-black transition"
             >
               Logout
             </button>
@@ -132,8 +127,8 @@ export default function AccountPage() {
                   className={`px-4 py-2 rounded-full text-sm font-medium transition
                     ${
                       activeTab === tab.id
-                        ? "bg-gradient-to-r from-brandGradient-from to-brandGradient-to text-black"
-                        : "border border-brandGradient-from/40"
+                        ? "bg-yellow-400 text-black"
+                        : "border border-yellow-300 hover:bg-yellow-50"
                     }`}
                 >
                   {tab.label}
@@ -157,7 +152,7 @@ export default function AccountPage() {
 
 function AccountOverview({ user }: { user: any }) {
   return (
-    <div className="rounded-2xl bg-white p-6 border border-brandGradient-from/30">
+    <div className="rounded-2xl bg-white p-6 border border-yellow-300">
       <h3 className="text-lg font-semibold mb-4">Account Overview</h3>
 
       <div className="grid sm:grid-cols-2 gap-4">
@@ -194,7 +189,7 @@ function OrderHistory() {
           href={`/account/orders/${order.id}`}
           className="block"
         >
-          <div className="rounded-xl border border-gray-200 p-4 bg-white hover:border-brandGradient-from/50 transition cursor-pointer">
+          <div className="rounded-xl border border-gray-200 p-4 bg-white hover:border-yellow-400 transition">
             <div className="flex justify-between items-center">
               <div>
                 <p className="font-semibold">{order.id}</p>
@@ -224,21 +219,18 @@ function SavedAddresses() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
 
-  /* ---------------- SAVE ---------------- */
   const handleSave = (data: Address) => {
     setAddresses((prev) => {
       const exists = prev.find((a) => a.id === data.id);
-      if (exists) {
-        return prev.map((a) => (a.id === data.id ? data : a));
-      }
-      return [...prev, data];
+      return exists
+        ? prev.map((a) => (a.id === data.id ? data : a))
+        : [...prev, data];
     });
 
     setIsModalOpen(false);
     setEditingAddress(null);
   };
 
-  /* ---------------- DELETE ---------------- */
   const handleDelete = (id: number) => {
     setAddresses((prev) => prev.filter((a) => a.id !== id));
   };
@@ -247,9 +239,7 @@ function SavedAddresses() {
     <>
       <div className="space-y-4">
         {addresses.length === 0 && (
-          <p className="text-sm text-gray-500">
-            No saved addresses yet.
-          </p>
+          <p className="text-sm text-gray-500">No saved addresses yet.</p>
         )}
 
         {addresses.map((addr) => (
@@ -274,7 +264,7 @@ function SavedAddresses() {
                     setEditingAddress(addr);
                     setIsModalOpen(true);
                   }}
-                  className="font-semibold text-brandGradient-from"
+                  className="font-semibold text-yellow-600"
                 >
                   Edit
                 </button>
@@ -294,8 +284,7 @@ function SavedAddresses() {
             setEditingAddress(null);
             setIsModalOpen(true);
           }}
-          className="w-full py-3 rounded-xl font-semibold text-black
-          bg-gradient-to-r from-brandGradient-from to-brandGradient-to"
+          className="w-full py-3 rounded-xl font-semibold text-black bg-yellow-400 hover:bg-yellow-500 transition"
         >
           + Add New Address
         </button>
@@ -314,7 +303,6 @@ function SavedAddresses() {
     </>
   );
 }
-
 
 /* ---------------- ADDRESS MODAL ---------------- */
 
@@ -338,12 +326,6 @@ function AddressModal({
     pincode: initialData?.pincode || "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
       <div className="w-full max-w-lg rounded-2xl bg-white p-6">
@@ -361,62 +343,33 @@ function AddressModal({
           <select
             name="label"
             value={form.label}
-            onChange={handleChange}
+            onChange={(e) =>
+              setForm({ ...form, label: e.target.value })
+            }
             className="input sm:col-span-2"
           >
-            <option value="Home">Home</option>
-            <option value="Office">Office</option>
-            <option value="Other">Other</option>
+            <option>Home</option>
+            <option>Office</option>
+            <option>Other</option>
           </select>
 
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Full Name"
-            className="input"
-            required
-          />
-          <input
-            name="phone"
-            value={form.phone}
-            onChange={handleChange}
-            placeholder="Phone Number"
-            className="input"
-            required
-          />
-          <input
-            name="address"
-            value={form.address}
-            onChange={handleChange}
-            placeholder="Address"
-            className="input sm:col-span-2"
-            required
-          />
-          <input
-            name="city"
-            value={form.city}
-            onChange={handleChange}
-            placeholder="City"
-            className="input"
-            required
-          />
-          <input
-            name="state"
-            value={form.state}
-            onChange={handleChange}
-            placeholder="State"
-            className="input"
-            required
-          />
-          <input
-            name="pincode"
-            value={form.pincode}
-            onChange={handleChange}
-            placeholder="Pincode"
-            className="input"
-            required
-          />
+          {["name", "phone", "address", "city", "state", "pincode"].map(
+            (field) => (
+              <input
+                key={field}
+                name={field}
+                value={(form as any)[field]}
+                onChange={(e) =>
+                  setForm({ ...form, [field]: e.target.value })
+                }
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                className={`input ${
+                  field === "address" ? "sm:col-span-2" : ""
+                }`}
+                required
+              />
+            )
+          )}
 
           <div className="sm:col-span-2 flex justify-end gap-3 mt-4">
             <button
@@ -428,8 +381,7 @@ function AddressModal({
             </button>
             <button
               type="submit"
-              className="px-5 py-2 rounded-lg font-semibold text-black
-              bg-gradient-to-r from-brandGradient-from to-brandGradient-to"
+              className="px-5 py-2 rounded-lg font-semibold text-black bg-yellow-400 hover:bg-yellow-500 transition"
             >
               Save Address
             </button>
@@ -439,7 +391,6 @@ function AddressModal({
     </div>
   );
 }
-
 
 /* ---------------- INFO CARD ---------------- */
 
@@ -452,10 +403,9 @@ function InfoCard({
 }) {
   return (
     <div className="relative rounded-xl bg-white p-4 border border-gray-200">
-      <span className="absolute left-0 top-0 h-full w-[3px]
-      bg-gradient-to-b from-brandGradient-from to-brandGradient-to" />
-      <p className="text-xs text-gray-500 uppercase pl-2">{label}</p>
-      <div className="pl-2 font-medium">{value}</div>
+      <span className="absolute left-0 top-0 h-full w-[4px] bg-yellow-400 rounded-l-xl" />
+      <p className="text-xs text-gray-500 uppercase pl-3">{label}</p>
+      <div className="pl-3 font-medium">{value}</div>
     </div>
   );
 }
