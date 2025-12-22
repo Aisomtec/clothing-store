@@ -17,6 +17,7 @@ type Product = {
   rating?: number;
   reviews?: number;
   image: string;
+  hoverImage?: string;
   color: string;
   colors?: string[];
   fit: string;
@@ -49,6 +50,7 @@ const menProducts: Product[] = [
     rating: 4.4,
     reviews: 184,
     image: "/men/classic-white.png",
+    hoverImage: "/men/oversized-tee.png",
     color: "White",
     colors: ["White", "Black", "Grey"],
     fit: "Regular",
@@ -514,10 +516,6 @@ export default function MenPage() {
 
         </div>
       </section>
-
-
-
-
 
 
 

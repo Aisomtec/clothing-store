@@ -68,11 +68,14 @@ export default function ProductDetailPage() {
 
 
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
-    const quantityInCart =
+  const quantityInCart =
     selectedSize ? getCartQty(product.id, selectedSize) : 0;
 
   const [activeImage, setActiveImage] = useState(0);
   const [showSizeChart, setShowSizeChart] = useState(false);
+
+  const [showSizeError, setShowSizeError] = useState(false);
+
 
   const discount = Math.round(
     ((product.mrp - product.price) / product.mrp) * 100
@@ -187,31 +190,55 @@ export default function ProductDetailPage() {
 
             {/* SIZE */}
             <div>
-              <div className="flex justify-between mb-2">
+              {/* HEADER ROW */}
+              <div className="flex justify-between items-center mb-1">
                 <p className="font-semibold">Select Size</p>
+
                 <button
+                  type="button"
                   onClick={() => setShowSizeChart(true)}
-                  className="text-xs font-semibold bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent hover:opacity-80"
+                  className="text-xs font-semibold text-yellow-500 hover:opacity-80"
                 >
                   Size Guide
                 </button>
               </div>
 
+              {/* ERROR MESSAGE */}
+              {showSizeError && (
+                <p className="text-xs text-red-600 mb-2">
+                  Please select one size
+                </p>
+              )}
+
+              {/* SIZE OPTIONS */}
               <div className="flex gap-2 flex-wrap">
-                {product.sizes.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSelectedSize(s)}
-                    className={`min-w-[52px] h-11 rounded-lg border font-semibold text-sm transition ${selectedSize === s
-                      ? "border-transparent bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to text-black"
-                      : "border-gray-300 hover:border-black"
-                      }`}
-                  >
-                    {s}
-                  </button>
-                ))}
+                {product.sizes.map((s) => {
+                  const active = selectedSize === s;
+
+                  return (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => {
+                        setSelectedSize(s);
+                        setShowSizeError(false);
+                      }}
+                      className={`
+            min-w-[52px] h-11 rounded-lg border
+            font-semibold text-sm transition
+            ${active
+                          ? "border-yellow-400 bg-yellow-400 text-black"
+                          : "border-gray-300 hover:border-yellow-400"
+                        }
+          `}
+                    >
+                      {s}
+                    </button>
+                  );
+                })}
               </div>
             </div>
+
 
             {/* CTA */}
             <div className="flex gap-3">
@@ -224,15 +251,21 @@ export default function ProductDetailPage() {
                 </button>
               ) : quantityInCart === 0 ? (
                 <button
-                  onClick={() => addToCart(cartProduct)}
-                  className="flex-1 h-14 rounded-xl font-semibold
-      bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to
-      text-black hover:opacity-90 transition"
+                  onClick={() => {
+                    if (!selectedSize) {
+                      setShowSizeError(true);
+                      return;
+                    }
+
+                    addToCart(cartProduct);
+                  }}
+                  className="flex-1 h-14 rounded-xl font-semibold bg-yellow-400 text-black hover:opacity-90 transition"
                 >
                   Add to Cart
                 </button>
+
               ) : (
-                <div className="flex-1 h-14 flex items-center justify-between border rounded-xl px-4">
+                <div className="flex-1 h-14 flex items-center justify-between border bg-yellow-400 rounded-xl px-4">
                   <button onClick={() => decreaseQty(product.id, selectedSize)}>
                     <Minus size={18} />
                   </button>
@@ -335,36 +368,59 @@ export default function ProductDetailPage() {
 
       {/* SIZE CHART MODAL */}
       {showSizeChart && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <div className="flex justify-between mb-4">
-              <h3 className="font-bold text-lg">Size Chart</h3>
-              <button onClick={() => setShowSizeChart(false)}>
-                <X />
+        <div className="fixed inset-0 z-[999] bg-black/60 flex items-center justify-center px-4">
+
+          {/* MODAL CARD */}
+          <div className="relative bg-white rounded-2xl w-full max-w-md p-6 shadow-2xl animate-fadeIn">
+
+            {/* HEADER */}
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-lg text-black">
+                Size Chart
+              </h3>
+
+              <button
+                onClick={() => setShowSizeChart(false)}
+                className="p-1 rounded-full hover:bg-gray-100"
+              >
+                <X size={18} />
               </button>
             </div>
 
-            <table className="w-full text-sm border">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="p-2 border">Size</th>
-                  <th className="p-2 border">Chest</th>
-                  <th className="p-2 border">Length</th>
-                </tr>
-              </thead>
-              <tbody>
-                {["S", "M", "L", "XL"].map((s, i) => (
-                  <tr key={s}>
-                    <td className="p-2 border text-center">{s}</td>
-                    <td className="p-2 border text-center">{38 + i * 2}"</td>
-                    <td className="p-2 border text-center">{27 + i}"</td>
+            {/* TABLE */}
+            <div className="overflow-hidden rounded-xl border border-yellow-300">
+              <table className="w-full text-sm">
+                <thead className="bg-yellow-100">
+                  <tr>
+                    <th className="p-3 text-left font-semibold">Size</th>
+                    <th className="p-3 text-center font-semibold">Chest</th>
+                    <th className="p-3 text-center font-semibold">Length</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+
+                <tbody>
+                  {["S", "M", "L", "XL"].map((s, i) => (
+                    <tr
+                      key={s}
+                      className="border-t last:border-b-0"
+                    >
+                      <td className="p-3 font-semibold">{s}</td>
+                      <td className="p-3 text-center">{38 + i * 2}"</td>
+                      <td className="p-3 text-center">{27 + i}"</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* FOOTER NOTE */}
+            <p className="mt-4 text-xs text-gray-500">
+              All measurements are in inches. Allow ±0.5” tolerance.
+            </p>
           </div>
         </div>
       )}
+
 
       <Footer />
     </>

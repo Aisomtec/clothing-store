@@ -12,20 +12,9 @@ type Props = {
   rating?: number;
   reviews?: number;
   image: string;
+  hoverImage?: string; // ✅ NEW
   colors?: string[];
   badge?: "NEW" | "SALE" | "";
-};
-
-const colorMap: Record<string, string> = {
-  Black: "bg-black",
-  White: "bg-white border",
-  Blue: "bg-blue-500",
-  Green: "bg-green-500",
-  Brown: "bg-amber-700",
-  Grey: "bg-gray-400",
-  Red: "bg-red-500",
-  Yellow: "bg-yellow-400",
-  Pink: "bg-pink-400",
 };
 
 export default function ProductCard({
@@ -36,7 +25,7 @@ export default function ProductCard({
   rating = 4.5,
   reviews = 120,
   image,
-  colors = [],
+  hoverImage,
   badge,
 }: Props) {
   const { toggleWishlist, isInWishlist } = useShop();
@@ -51,7 +40,8 @@ export default function ProductCard({
         className="
           group relative bg-white rounded-xl
           border border-gray-100 overflow-hidden
-          hover:shadow-lg transition-all duration-300
+          transition-shadow duration-300
+          hover:shadow-md
         "
       >
         {/* BADGE */}
@@ -60,8 +50,7 @@ export default function ProductCard({
             className="
               absolute z-10 top-2 left-2
               text-[10px] font-semibold px-2 py-0.5 rounded
-              bg-gradient-to-r from-yellow-300 via-yellow-400 to-amber-400
-              text-black
+              bg-yellow-300 text-black
             "
           >
             {badge}
@@ -77,7 +66,7 @@ export default function ProductCard({
           className="
             absolute z-10 top-2 right-2
             bg-white/90 rounded-full p-2
-            shadow hover:scale-105 transition
+            shadow-sm hover:scale-105 transition
           "
         >
           <Heart
@@ -90,48 +79,44 @@ export default function ProductCard({
           />
         </button>
 
-        {/* IMAGE */}
+        {/* IMAGE WRAPPER */}
         <div className="relative aspect-[4/5] bg-gray-100 overflow-hidden">
+          
+          {/* BASE IMAGE */}
           <img
             src={image}
             alt={title}
             className="
-              w-full h-full object-cover
-              transition-transform duration-500
-              group-hover:scale-105
+              absolute inset-0 w-full h-full object-cover
+              transition-opacity duration-500
+              group-hover:opacity-0
             "
           />
 
-          {/* IMAGE OVERLAYS */}
-          <div className="absolute inset-x-2 bottom-2 flex justify-between items-end">
+          {/* HOVER IMAGE */}
+          {hoverImage && (
+            <img
+              src={hoverImage}
+              alt={`${title} hover`}
+              className="
+                absolute inset-0 w-full h-full object-cover
+                opacity-0 transition-opacity duration-500
+                group-hover:opacity-100
+              "
+            />
+          )}
 
-            {/* RATING */}
-            <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-md text-[11px]">
+          {/* RATING */}
+          <div className="absolute inset-x-2 bottom-2">
+            <div className="inline-flex items-center gap-1 bg-white/90 px-2 py-1 rounded-md text-[11px]">
               <Star size={12} className="fill-yellow-400 text-yellow-400" />
               <span className="font-medium">{rating}</span>
               <span className="text-gray-400">({reviews})</span>
             </div>
-
-            {/* COLORS */}
-            {/* {colors.length > 0 && (
-              <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-md">
-                {colors.slice(0, 3).map((c) => (
-                  <span
-                    key={c}
-                    className={`w-3 h-3 rounded-full ${colorMap[c]} border`}
-                  />
-                ))}
-                {colors.length > 3 && (
-                  <span className="text-[10px] text-gray-500">
-                    +{colors.length - 3}
-                  </span>
-                )}
-              </div>
-            )} */}
           </div>
         </div>
 
-        {/* CONTENT (COMPACT) */}
+        {/* CONTENT */}
         <div className="p-3 space-y-1">
           <h4 className="text-sm font-semibold truncate">{title}</h4>
 

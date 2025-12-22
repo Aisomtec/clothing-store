@@ -26,6 +26,7 @@ const CATEGORY_OPTIONS = [
   "Socks",
   "Belts",
   "Wallets",
+  "Perfumes",
 ];
 
 /* ---------------- PRODUCTS ---------------- */
@@ -69,6 +70,15 @@ const accessoriesProducts: Product[] = [
     price: 799,
     image: "/accessories/wallet.png",
     category: ["Wallets"],
+    badge: "NEW",
+  },
+  {
+    id: 206,
+    title: "Classic Eau de perfume",
+    price: 499,
+    mrp: 699,
+    image: "/accessories/perfume.png",
+    category: ["Perfumes"],
     badge: "NEW",
   },
 ];
