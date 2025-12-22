@@ -22,7 +22,7 @@ export default function PriceRangeSlider({ value, onChange }: Props) {
         onChange={(e) =>
           onChange(PRICE_POINTS[Number(e.target.value)])
         }
-        className="w-full cursor-pointer accent-orange-500"
+        className="w-full cursor-pointer accent-yellow-400"
       />
 
       {/* LABELS */}
@@ -32,7 +32,7 @@ export default function PriceRangeSlider({ value, onChange }: Props) {
             key={p}
             className={
               p === value
-                ? "font-semibold bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent"
+                ? "font-semibold bg-brand bg-clip-text text-brand-400"
                 : ""
             }
           >

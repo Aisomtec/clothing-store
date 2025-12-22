@@ -113,7 +113,7 @@ export default function ProductCard({
             </div>
 
             {/* COLORS */}
-            {colors.length > 0 && (
+            {/* {colors.length > 0 && (
               <div className="flex items-center gap-1 bg-white/90 px-2 py-1 rounded-md">
                 {colors.slice(0, 3).map((c) => (
                   <span
@@ -127,7 +127,7 @@ export default function ProductCard({
                   </span>
                 )}
               </div>
-            )}
+            )} */}
           </div>
         </div>
 

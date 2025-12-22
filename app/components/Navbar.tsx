@@ -18,7 +18,7 @@ import { useEffect, useRef, useState } from "react";
 const navLinks = [
   { name: "Men", href: "/men" },
   { name: "Women", href: "/women" },
-  { name: "New Arrivals", href: "/new" },
+  { name: "Accessories", href: "/accessories" },
 ];
 
 export default function Navbar() {
@@ -63,17 +63,14 @@ export default function Navbar() {
     <>
       {/* ================= HEADER ================= */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 bg-white border-b transition-transform duration-300 ${
-          showNav ? "translate-y-0" : "-translate-y-full"
-        }`}
+        className={`fixed top-0 inset-x-0 z-50 bg-white border-b transition-transform duration-300 ${showNav ? "translate-y-0" : "-translate-y-full"
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* LOGO */}
           <Link
             href="/"
-            className="font-bold tracking-wide text-lg bg-gradient-to-r
-            from-brandGradient-from via-brandGradient-via to-brandGradient-to
-            bg-clip-text text-transparent"
+            className="font-bold tracking-wide text-lg text-brand-400"
           >
             CLOTHING.CO
           </Link>
@@ -84,11 +81,10 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`text-sm font-semibold uppercase transition ${
-                  isActive(l.href)
-                    ? "text-brand"
-                    : "text-gray-800 hover:text-brand"
-                }`}
+                className={`text-sm font-semibold uppercase transition ${isActive(l.href)
+                  ? "text-brand-400"
+                  : "text-gray-800 hover:text-brand-400"
+                  }`}
               >
                 {l.name}
               </Link>
@@ -96,10 +92,10 @@ export default function Navbar() {
           </nav>
 
           {/* SEARCH (>= md) */}
-          <div
-            className="hidden md:flex items-center px-4 py-2 rounded-full w-64
-            bg-brand/10 focus-within:ring-1 focus-within:ring-brand"
-          >
+          <div className="
+              hidden md:flex items-center px-4 py-2 rounded-full w-64
+              bg-brand-400/10 focus-within:ring-1 focus-within:ring-brand-400">
+
             <Search size={16} className="text-gray-500" />
             <input
               value={localSearch}
@@ -124,7 +120,7 @@ export default function Navbar() {
               <div className="relative">
                 <button
                   onClick={() => setUserMenuOpen((v) => !v)}
-                  className="flex items-center gap-1 text-brand"
+                  className="flex items-center gap-1 text-brand-400"
                 >
                   <User />
                   <ChevronDown size={14} />
@@ -150,7 +146,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => loginWithGoogle("/account")}
-                className="text-brand"
+                className="text-brand-400"
               >
                 <User />
               </button>
@@ -159,9 +155,9 @@ export default function Navbar() {
 
           {/* MOBILE ICONS */}
           <div className="flex md:hidden items-center gap-4">
-            <IconButton href="/wishlist" count={wishlistCount}>
+            {/* <IconButton href="/wishlist" count={wishlistCount}>
               <Heart size={22} />
-            </IconButton>
+            </IconButton> */}
 
             <IconButton href="/cart" count={cartCount}>
               <ShoppingBag size={22} />
@@ -169,19 +165,19 @@ export default function Navbar() {
 
             {/* USER (MOBILE) */}
             {user ? (
-              <Link href="/account" className="text-brand">
+              <Link href="/account" className="text-brand-400">
                 <User size={22} />
               </Link>
             ) : (
               <button
                 onClick={() => loginWithGoogle("/account")}
-                className="text-brand"
+                className="text-brand-400"
               >
                 <User size={22} />
               </button>
             )}
 
-            <button onClick={() => setMobileOpen(true)} className="text-brand">
+            <button onClick={() => setMobileOpen(true)} className="text-brand-400">
               <Menu size={24} />
             </button>
           </div>
@@ -190,34 +186,100 @@ export default function Navbar() {
 
       {/* ================= MOBILE DRAWER ================= */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 bg-white p-6">
-          <button
-            onClick={() => setMobileOpen(false)}
-            className="mb-6 text-brand"
-          >
-            <X size={24} />
-          </button>
+        <div className="fixed inset-0 z-50 bg-white flex flex-col">
 
-          <input
-            value={localSearch}
-            onChange={(e) => setLocalSearch(e.target.value)}
-            placeholder="Search products"
-            className="w-full bg-gray-100 p-3 rounded mb-8"
-          />
+          {/* HEADER */}
+          <div className="flex items-center justify-between px-6 h-16 border-b">
+            <span className="text-lg font-bold text-brand-400">
+              CLOTHING.CO
+            </span>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="text-brand-400"
+            >
+              <X size={22} />
+            </button>
+          </div>
 
-          <nav className="flex flex-col gap-6 text-lg font-semibold">
-            {navLinks.map((l) => (
+          {/* CONTENT */}
+          <div className="flex-1 overflow-y-auto px-6 py-6">
+
+            {/* SEARCH */}
+            <div className="mb-8">
+              <div className="flex items-center bg-brand-400/10 rounded-lg px-4 py-3">
+                <Search size={16} className="text-gray-500" />
+                <input
+                  value={localSearch}
+                  onChange={(e) => setLocalSearch(e.target.value)}
+                  placeholder="Search products"
+                  className="ml-2 bg-transparent outline-none text-sm w-full"
+                />
+              </div>
+            </div>
+
+            {/* PRIMARY NAV */}
+            <nav className="space-y-5">
+              {navLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  className="flex items-center justify-between text-lg font-semibold text-gray-900"
+                >
+                  {l.name}
+                  <span className="text-gray-300">›</span>
+                </Link>
+              ))}
+            </nav>
+
+            {/* DIVIDER */}
+            <div className="my-8 h-px bg-gray-100" />
+
+            {/* QUICK ACTIONS */}
+            <div className="grid grid-cols-2 gap-4">
               <Link
-                key={l.href}
-                href={l.href}
-                className="text-gray-900 hover:text-brand"
+                href="/wishlist"
+                className="flex items-center justify-center gap-2 rounded-lg border p-4 text-sm font-semibold"
               >
-                {l.name}
+                <Heart size={16} />
+                Wishlist
               </Link>
-            ))}
-          </nav>
+
+              <Link
+                href="/cart"
+                className="flex items-center justify-center gap-2 rounded-lg border p-4 text-sm font-semibold"
+              >
+                <ShoppingBag size={16} />
+                Cart
+              </Link>
+            </div>
+
+            {/* ACCOUNT */}
+            <div className="mt-8">
+              {user ? (
+                <Link
+                  href="/account"
+                  className="block w-full text-center py-3 rounded-lg border font-semibold"
+                >
+                  My Account
+                </Link>
+              ) : (
+                <button
+                  onClick={() => loginWithGoogle("/account")}
+                  className="w-full py-3 rounded-lg bg-brand-400 text-black font-semibold"
+                >
+                  Login / Sign up
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* FOOTER */}
+          <div className="px-6 py-4 border-t text-xs text-gray-500 text-center">
+            Free shipping on orders above ₹1999
+          </div>
         </div>
       )}
+
 
       {/* Spacer */}
       <div className="h-16" />
@@ -237,7 +299,7 @@ function IconButton({
   children: React.ReactNode;
 }) {
   return (
-    <Link href={href} className="relative text-brand">
+    <Link href={href} className="relative text-brand-400">
       {children}
       {count > 0 && <span className="badge">{count}</span>}
     </Link>

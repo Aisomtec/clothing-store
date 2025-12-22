@@ -7,21 +7,40 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    // extend: {
+    //   colors: {
+    //     brand: {
+    //       DEFAULT: "#F2C94C", 
+    //     },
+
+    //     brandGradient: {
+    //       from: "#F97316",
+
+    //       to: "#FACC15",  
+    //     },
+
+    //     dark: "#0b0b0b",
+    //   },
+    // }
+
+
     extend: {
       colors: {
         brand: {
-          DEFAULT: "#F2C94C", // keep for now (fallback)
-        },
-
-        brandGradient: {
-          from: "#F97316", // orange
-          // via: "#EF4444",  // red
-          to: "#FACC15",   // yellow
+          50: "#FFFBEB",
+          100: "#FEF3C7",
+          200: "#FDE68A",
+          300: "#FCD34D",
+          400: "#FACC15", // MAIN BRAND COLOR
+          500: "#EAB308",
+          600: "#CA8A04",
+          700: "#A16207",
         },
 
         dark: "#0b0b0b",
       },
-    }
+    },
+
 
   },
   plugins: [],

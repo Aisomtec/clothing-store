@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
 import PriceRangeSlider from "../components/PriceRangeSlider";
 import { useShop } from "../context/ShopContext";
+import { Shirt, Layers, Dumbbell, Coffee, Badge } from "lucide-react";
 
 /* ---------------- TYPES ---------------- */
 type Product = {
@@ -24,8 +25,11 @@ type Product = {
   badge?: "NEW" | "SALE" | "";
 };
 
+
+
+
+
 /* ---------------- CONSTANTS ---------------- */
-const MIN_PRICE = 200;
 const MAX_PRICE = 1500;
 
 const CATEGORY_OPTIONS = [
@@ -35,7 +39,6 @@ const CATEGORY_OPTIONS = [
   "Sports",
   "Casual",
 ];
-
 /* ---------------- PRODUCTS ---------------- */
 const menProducts: Product[] = [
   {
@@ -202,35 +205,6 @@ const menProducts: Product[] = [
 ];
 
 
-const BEST_FOR_MEN = [
-  {
-    label: "Oversized",
-    value: "Oversized",
-    desc: "Relaxed street fit",
-  },
-  {
-    label: "Sports Active",
-    value: "Sports",
-    desc: "Workout & movement",
-  },
-  {
-    label: "Casual Wear",
-    value: "Casual",
-    desc: "Daily essentials",
-  },
-  {
-    label: "Round Neck",
-    value: "Round Neck",
-    desc: "Classic comfort",
-  },
-  {
-    label: "Premium Picks",
-    value: "Premium",
-    desc: "Top quality fabric",
-  },
-];
-
-
 /* ---------------- COLOR DOTS ---------------- */
 const colorDot: Record<string, string> = {
   White: "bg-white border",
@@ -243,17 +217,7 @@ const colorDot: Record<string, string> = {
   Yellow: "bg-yellow-400",
 };
 
-
 export default function MenPage() {
-
-
-
-
-
-
-
-
-  
   const { searchQuery } = useShop();
 
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
@@ -337,13 +301,13 @@ export default function MenPage() {
                       : [...prev, cat]
                   )
                 }
-                className={`
-            px-4 py-2 rounded-full border cursor-pointer text-sm transition
-            ${active
-                    ? "bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to text-black border-transparent"
-                    : "bg-white text-gray-800 border-orange-300 hover:border-orange-400"
-                  }
-          `}
+                className={`px-4 py-2 rounded-full border text-sm font-semibold cursor-pointer transition-all duration-200
+                  ${active
+                    ? "bg-yellow-300 text-black border-yellow-400 shadow-sm"
+                    : "bg-white text-gray-900 border-yellow-400 hover:bg-yellow-50"
+                  }`}
+
+
               >
                 {cat}
               </button>
@@ -362,34 +326,45 @@ export default function MenPage() {
       {/* SIZE */}
       <div>
         <h4 className="font-semibold mb-3">Size</h4>
+
         <div className="flex gap-3 flex-wrap">
-          {["S", "M", "L", "XL"].map((s) => (
-            <label key={s} className={`px-4 py-2 rounded-full border cursor-pointer text-sm transition
-             ${selectedSizes.includes(s)
-                ? "bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to text-black border-transparent"
-                : "border-brandGradient-from/30 bg-white hover:border-brandGradient-from-yellow"
-              }`}
-            >
-              <input
-                type="checkbox"
-                className="hidden"
-                checked={selectedSizes.includes(s)}
-                onChange={() =>
-                  setSelectedSizes((prev) =>
-                    prev.includes(s)
-                      ? prev.filter((x) => x !== s)
-                      : [...prev, s]
-                  )
-                }
-              />
-              {s}
-            </label>
-          ))}
+          {["S", "M", "L", "XL"].map((s) => {
+            const active = selectedSizes.includes(s);
+
+            return (
+              <label
+                key={s}
+                className={`
+            px-4 py-2 rounded-full border
+            text-sm font-semibold cursor-pointer
+            transition-all duration-200
+            ${active
+                    ? "bg-yellow-300 text-black border-yellow-400 shadow-sm"
+                    : "bg-white text-gray-900 border-yellow-400 hover:bg-yellow-50"
+                  }
+          `}
+              >
+                <input
+                  type="checkbox"
+                  className="hidden"
+                  checked={active}
+                  onChange={() =>
+                    setSelectedSizes((prev) =>
+                      prev.includes(s)
+                        ? prev.filter((x) => x !== s)
+                        : [...prev, s]
+                    )
+                  }
+                />
+                {s}
+              </label>
+            );
+          })}
         </div>
       </div>
 
-      {/* FIT */}
 
+      {/* FIT */}
       <div>
         <h4 className="font-semibold mb-3">Fit</h4>
 
@@ -407,12 +382,15 @@ export default function MenPage() {
                       : [...prev, f]
                   )
                 }
-                className={`rounded-full px-4 py-3 text-left border cursor-pointer transition
-${active
-                    ? "bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to text-black border-transparent shadow-sm"
-                    : "bg-white border-brandGradient-from/30 hover:border-brandGradient-from-yellow"
-                  }`}
-
+                className={`
+            px-5 py-2.5 rounded-full border
+            text-sm font-semibold cursor-pointer
+            transition-all duration-200
+            ${active
+                    ? "bg-yellow-300 text-black border-yellow-400 shadow-sm"
+                    : "bg-white text-gray-900 border-yellow-400 hover:bg-yellow-50"
+                  }
+          `}
               >
                 {f}
               </button>
@@ -452,85 +430,95 @@ ${active
     <>
       <Navbar />
 
-      {/* HERO */}
+      {/* ---------------- HERO ---------------- */}
       <section className="border-b bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          <p className="text-sm font-semibold uppercase text-gray-500">Men</p>
-          <h1 className="text-4xl font-extrabold">
-            Premium{" "}
-            <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
-              T-Shirts
-            </span>
-          </h1>
-        </div>
-      </section>
+        <div className="max-w-7xl mx-auto px-6 py-8">
 
+          {/* DESKTOP */}
+          <div className="hidden lg:grid grid-cols-[1fr_auto] items-center gap-10">
 
-      {/* BEST FOR MEN */}
-      <section className="border-b bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-
-          {/* Heading */}
-          <div className="mb-6">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-              Best for{" "}
-              <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
+            {/* LEFT: TITLE */}
+            <div>
+              <p className="text-sm font-semibold uppercase text-gray-500">
                 Men
-              </span>
-            </h2>
-            <p className="mt-1 text-xs sm:text-sm text-gray-500">
-              Curated picks by fit & lifestyle
-            </p>
-          </div>
-
-          {/* Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-            {[
-              { title: "Oversized", desc: "Relaxed fit", tag: "Oversized" },
-              { title: "Sports", desc: "Active wear", tag: "Sports" },
-              { title: "Casual", desc: "Daily wear", tag: "Casual" },
-              { title: "Round Neck", desc: "Classic", tag: "Round Neck" },
-              { title: "Premium", desc: "Top fabric", tag: "Premium" },
-            ].map((item) => {
-              const active = selectedCategories.includes(item.tag);
-
-              return (
-                <button
-                  key={item.tag}
-                  onClick={() =>
-                    setSelectedCategories((prev) =>
-                      prev.includes(item.tag) ? [] : [item.tag]
-                    )
-                  }
-                  className={`
-relative rounded-xl px-4 py-4 sm:px-5 sm:py-5 text-left transition-all duration-200
-border cursor-pointer
-${active
-  ? "bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to text-black border-transparent shadow-md"
-  : "bg-white border-orange-300 hover:border-orange-400"
-}
-`}
+              </p>
+              <h1 className="text-4xl font-extrabold leading-tight">
+                Premium{" "}
+                <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-yellow-400">
+                  T-Shirts
+                </span>
+              </h1>
+            </div>
 
 
-                >
-                  <span className="absolute top-3 right-3 w-2 h-2 rounded-full 
-  bg-brandGradient-from opacity-40" />
-                  <h3 className="text-sm sm:text-base font-semibold leading-tight">
-                    {item.title}
-                  </h3>
 
-                  <p
-                    className={`mt-0.5 text-xs sm:text-sm ${active ? "text-black/80" : "text-gray-500"
-                      }`}
-                  >
-                    {item.desc}
+            {/* RIGHT: COUPON BANNER */}
+            <div className="flex items-center">
+              <div className="relative flex w-[840px] rounded-xl border border-yellow-300 overflow-hidden shadow-sm">
+
+                {/* LEFT: YELLOW SECTION */}
+                <div className="flex-1 bg-yellow-300 px-10 py-6">
+                  <p className="text-[11px] font-semibold tracking-widest text-black uppercase">
+                    Special Offer
                   </p>
-                </button>
-              );
-            })}
+
+                  <p className="mt-1 text-xl font-extrabold text-black">
+                    Get 10% Cashback
+                  </p>
+
+                  <p className="text-xs text-black/70">
+                    On all orders
+                  </p>
+                </div>
+
+                {/* PERFORATION */}
+                <div className="relative flex items-center">
+                  <div className="h-full border-l border-dashed border-yellow-500" />
+
+                  {/* CUTOUTS */}
+                  <span className="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white border border-yellow-300" />
+                  <span className="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white border border-yellow-300" />
+                </div>
+
+                {/* RIGHT: WHITE SECTION */}
+                <div className="bg-white min-w-[420px] px-10 py-6 text-center">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-black-500">
+                    Use Code
+                  </p>
+
+                  <p className="mt-2 text-2xl font-extrabold tracking-[0.25em] text-yellow-400">
+                    GETCASH10
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+
+
+
           </div>
+
+          {/* MOBILE & TABLET */}
+          <div className="lg:hidden">
+            <p className="text-sm font-semibold uppercase text-gray-500">
+              Men
+            </p>
+            <h1 className="text-3xl font-extrabold">
+              Premium{" "}
+              <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
+                T-Shirts
+              </span>
+            </h1>
+          </div>
+
         </div>
       </section>
+
+
+
+
+
 
 
       {/* DESKTOP */}

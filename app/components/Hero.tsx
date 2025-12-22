@@ -7,11 +7,9 @@ export default function Hero() {
       
       {/* LEFT: COPY */}
       <div className="order-2 md:order-1">
-        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-dark font-display">
+        <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-dark">
           Style that{" "}
-          <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
-            Defines
-          </span>{" "}
+          <span className="text-brand-400">Defines</span>{" "}
           You
         </h1>
 
@@ -25,9 +23,8 @@ export default function Hero() {
           <a
             href="/men"
             className="
-              inline-block px-6 py-3 rounded-md text-black font-semibold shadow-sm
-              bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to
-              hover:opacity-90 transition
+              inline-block px-6 py-3 rounded-md font-semibold text-black
+              bg-brand-400 hover:bg-brand-500 transition shadow-sm
             "
           >
             Shop Collection
@@ -36,8 +33,8 @@ export default function Hero() {
           <a
             href="/about"
             className="
-              inline-block px-6 py-3 rounded-md border border-gray-200
-              text-dark hover:border-dark transition
+              inline-block px-6 py-3 rounded-md border border-yellow-200
+              text-dark hover:border-yellow-500 transition
             "
           >
             Our Story
@@ -58,8 +55,7 @@ export default function Hero() {
           <img
             src="/hero.png"
             alt="Hero"
-            className="w-full h-80 md:h-[420px] object-cover"
-            style={{ background: "#e9ecef" }}
+            className="w-full h-80 md:h-[420px] object-cover bg-gray-100"
           />
         </div>
       </div>

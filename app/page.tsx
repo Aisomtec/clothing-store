@@ -34,13 +34,13 @@ export default function Home() {
         <Hero />
 
         {/* CATEGORY GRID */}
-        <CategoryGrid />
+        {/* <CategoryGrid /> */}
 
         {/* NEW ARRIVALS */}
         <section className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="flex items-baseline justify-between">
             <h2 className="text-2xl font-bold">
-              New <span className="text-brand">Arrivals</span>
+              New <span className="text-brand-400">Arrivals</span>
             </h2>
             <a href="/men" className="text-sm text-gray-600 hover:text-black">
               View all
@@ -56,40 +56,72 @@ export default function Home() {
 
         {/* FASHION / EDITORIAL BANNER */}
         <section className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="rounded-2xl overflow-hidden bg-gray-100 grid md:grid-cols-2 items-center">
-            <div className="p-8 md:p-12">
-              <p className="text-sm font-semibold text-brand uppercase">
+          <div className="
+    relative overflow-hidden rounded-2xl
+    grid md:grid-cols-2 items-center
+    bg-brand-400/40
+  ">
+
+            {/* LEFT CONTENT */}
+            <div className="p-8 md:p-12 relative z-10">
+
+              {/* BRAND TAG */}
+              <span className="
+        inline-block text-xs font-bold tracking-widest uppercase
+        text-brand-800 bg-brand-300/20
+        px-3 py-1 rounded-full
+      ">
                 Trending Edit
-              </p>
-              <h3 className="mt-2 text-3xl font-extrabold">
-                Elevated Everyday Essentials
+              </span>
+
+              <h3 className="mt-4 text-3xl font-extrabold text-dark leading-tight">
+                Elevated{" "}
+                <span className="relative">
+                  Everyday
+                  <span className="absolute left-0 -bottom-1 w-full h-[3px] bg-brand-400/60 rounded" />
+                </span>{" "}
+                Essentials
               </h3>
-              <p className="mt-4 text-gray-600 max-w-md">
+
+              <p className="mt-4 text-gray-700 max-w-md">
                 Premium fabrics, modern fits, and timeless silhouettes designed
                 for everyday wear.
               </p>
+
               <a
                 href="/men"
-                className="inline-block mt-6 px-6 py-3 bg-brand text-black font-semibold rounded-md"
+                className="
+          inline-flex items-center gap-2 mt-6
+          px-6 py-3 rounded-md
+          bg-brand-400 text-black font-semibold
+          hover:brightness-95 transition
+        "
               >
                 Shop the Edit
+                <span className="text-lg">→</span>
               </a>
             </div>
 
-            <div className="h-64 md:h-full">
+            {/* RIGHT IMAGE */}
+            <div className="relative h-64 md:h-full">
               <img
                 src="/home/collection-banner.png"
                 alt="Fashion banner"
                 className="w-full h-full object-cover"
               />
+
+              {/* SUBTLE OVERLAY */}
+              <div className="absolute inset-0 bg-gradient-to-l from-black/10 to-transparent" />
             </div>
+
           </div>
         </section>
+
 
         {/* FEATURED PRODUCTS */}
         <section className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <h2 className="text-2xl font-bold">
-            Featured <span className="text-brand">Products</span>
+            Featured <span className="text-brand-400">Products</span>
           </h2>
 
           <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -101,9 +133,8 @@ export default function Home() {
 
         {/* COUPON / VOUCHER SECTION */}
         <section className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid gap-6 md:grid-cols-3">
 
-            {/* COUPON CARD */}
             {[
               { title: "₹300 OFF", desc: "On orders above ₹1999", code: "STYLE300" },
               { title: "10% OFF", desc: "Buy 2 or more tees", code: "AUTO APPLY" },
@@ -111,53 +142,115 @@ export default function Home() {
             ].map((c) => (
               <div
                 key={c.title}
-                className="relative bg-white border-2 border-dashed rounded-xl p-6"
+                className="
+          relative overflow-hidden rounded-2xl
+          border border-brand-400/40
+          bg-white p-6
+          transition hover:shadow-md
+        "
               >
-                {/* Ticket notches */}
-                <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full" />
-                <span className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full" />
+                {/* LEFT BRAND STRIP */}
+                <div className="absolute left-0 top-0 h-full w-1 bg-brand-400" />
 
-                <h4 className="text-xl font-bold">{c.title}</h4>
-                <p className="mt-2 text-sm text-gray-600">{c.desc}</p>
+                {/* TICKET CUTOUTS */}
+                <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full border border-brand-400/30" />
+                <span className="absolute -right-3 top-1/2 -translate-y-1/2 w-6 h-6 bg-gray-50 rounded-full border border-brand-400/30" />
 
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-xs px-3 py-1 bg-gray-100 rounded">
+                {/* CONTENT */}
+                <h4 className="text-2xl font-extrabold text-dark">
+                  {c.title}
+                </h4>
+
+                <p className="mt-2 text-sm text-gray-600">
+                  {c.desc}
+                </p>
+
+                {/* FOOTER */}
+                <div className="mt-6 flex items-center justify-between">
+                  <span
+                    className="
+              text-xs font-bold tracking-widest
+              px-4 py-2 rounded-md
+              bg-brand-400/20 text-brand-400
+            "
+                  >
                     {c.code}
                   </span>
+
                   <a
                     href="/men"
-                    className="text-sm font-semibold text-brand"
+                    className="
+              text-sm font-semibold
+              text-brand-800 hover:underline
+            "
                   >
                     Shop →
                   </a>
                 </div>
               </div>
             ))}
+
           </div>
         </section>
+
 
         {/* COLLECTION BANNER */}
         <CollectionBanner />
 
         {/* WHY CHOOSE US */}
-        <WhyChooseUs />
+        {/* <WhyChooseUs /> */}
 
         {/* PROMO BAND */}
         <section className="max-w-7xl mx-auto px-6">
-          <div className="rounded-xl bg-gray-50 p-8 flex items-center justify-between">
-            <h3 className="text-xl font-semibold">
-              Free shipping on orders above ₹1999
-            </h3>
+          <div
+            className="
+      relative overflow-hidden rounded-2xl
+      bg-brand-400/20
+      px-8 py-10
+      flex flex-col md:flex-row
+      items-start md:items-center
+      justify-between
+      gap-6
+    "
+          >
+            {/* LEFT CONTENT */}
+            <div>
+              <span className="inline-block mb-2 text-xs font-bold tracking-widest uppercase text-brand-400">
+                Delivery Perk
+              </span>
+
+              <h3 className="text-2xl md:text-3xl font-extrabold text-dark">
+                Free Shipping on Orders Above ₹1999
+              </h3>
+
+              <p className="mt-2 text-sm text-gray-700 max-w-lg">
+                Enjoy hassle-free delivery on all prepaid orders. No hidden charges,
+                no surprises.
+              </p>
+            </div>
+
+            {/* CTA */}
             <a
               href="/men"
-              className="px-5 py-3 rounded-md font-semibold text-black
-              bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to
-              hover:opacity-90"
+              className="
+        inline-flex items-center gap-2
+        px-6 py-3
+        rounded-full
+        bg-brand-400 text-black
+        font-semibold
+        hover:bg-brand-400/90
+        transition
+        whitespace-nowrap
+      "
             >
-              Shop Now
+              Shop Now →
             </a>
+
+            {/* DECORATIVE ACCENT */}
+            <span className="pointer-events-none absolute -top-12 -right-12 w-40 h-40 rounded-full bg-brand-400/30" />
           </div>
         </section>
+
 
         <Footer />
       </main>

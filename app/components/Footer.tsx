@@ -3,34 +3,40 @@ import { Instagram, Twitter, Facebook } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-20 border-t bg-white">
+    <footer className="mt-24 bg-white border-t-2 border-brand-400">
+      {/* TOP */}
       <div
         className="
-        max-w-7xl mx-auto
-        px-4 sm:px-6 lg:px-8
-        py-12
-        grid
-        grid-cols-2
-        md:grid-cols-2
-        lg:grid-cols-4
-        gap-8
-      "
+          max-w-7xl mx-auto
+          px-6 md:px-8 lg:px-12
+          py-14
+          grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4
+          gap-10
+        "
       >
-        {/* BRAND — FULL WIDTH ON MOBILE */}
-        <div className="col-span-2 lg:col-span-1 space-y-4">
-          <h3 className="font-bold text-lg tracking-wider bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-transparent">
-            CLOTHING.CO
+        {/* BRAND */}
+        <div className="col-span-2 md:col-span-1 space-y-4">
+          <h3 className="font-extrabold text-lg tracking-wide text-dark">
+            CLOTHING<span className="text-brand-400">.CO</span>
           </h3>
 
-          <p className="text-sm text-gray-600 leading-relaxed">
-            Minimal premium essentials. Designed and curated for timeless style,
-            comfort, and everyday wear.
+          <p className="text-sm text-gray-600 leading-relaxed max-w-sm">
+            Minimal premium essentials crafted for everyday comfort, timeless
+            style, and long-lasting wear.
           </p>
 
           <div className="flex gap-4">
             {[Instagram, Twitter, Facebook].map((Icon, i) => (
-              <Link key={i} href="#">
-                <Icon className="w-5 h-5 text-gray-600 hover:text-black transition" />
+              <Link
+                key={i}
+                href="#"
+                className="
+                  p-2 rounded-full border border-gray-200
+                  text-gray-600 hover:text-black hover:border-brand-400
+                  transition
+                "
+              >
+                <Icon className="w-4 h-4" />
               </Link>
             ))}
           </div>
@@ -38,50 +44,55 @@ export default function Footer() {
 
         {/* SHOP */}
         <div>
-          <h4 className="font-semibold text-sm mb-3 uppercase tracking-wide">
+          <h4 className="font-semibold text-xs uppercase tracking-widest text-gray-800 mb-4">
             Shop
           </h4>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-3 text-sm text-gray-600">
             <li><Link href="/men" className="hover:text-black">Men</Link></li>
             <li><Link href="/women" className="hover:text-black">Women</Link></li>
-            <li><Link href="/new" className="hover:text-black">New Arrivals</Link></li>
+            <li><Link href="/accessories" className="hover:text-black">Accessories</Link></li>
           </ul>
         </div>
 
         {/* CUSTOMER CARE */}
         <div>
-          <h4 className="font-semibold text-sm mb-3 uppercase tracking-wide">
-            Customer Care
+          <h4 className="font-semibold text-xs uppercase tracking-widest text-gray-800 mb-4">
+            Support
           </h4>
-          <ul className="space-y-2 text-sm text-gray-600">
+          <ul className="space-y-3 text-sm text-gray-600">
             <li><Link href="/shipping" className="hover:text-black">Shipping</Link></li>
             <li><Link href="/returns" className="hover:text-black">Returns</Link></li>
             <li><Link href="/size-guide" className="hover:text-black">Size Guide</Link></li>
-            <li><Link href="/contact" className="hover:text-black">Contact Us</Link></li>
+            <li><Link href="/contact" className="hover:text-black">Contact</Link></li>
           </ul>
         </div>
 
-        {/* NEWSLETTER — FULL WIDTH ON MOBILE */}
-        <div className="col-span-2 lg:col-span-1">
-          <h4 className="font-semibold text-sm mb-3 uppercase tracking-wide">
-            Stay Updated
+        {/* NEWSLETTER */}
+        <div className="col-span-2 md:col-span-1">
+          <h4 className="font-semibold text-xs uppercase tracking-widest text-gray-800 mb-4">
+            Stay in the Loop
           </h4>
-          <p className="text-sm text-gray-600 mb-3">
-            Subscribe for early access to drops, sales, and style updates.
+
+          <p className="text-sm text-gray-600 mb-4">
+            Get early access to drops, offers & style updates.
           </p>
 
-          <form className="flex max-w-sm">
+          <form className="flex rounded-full overflow-hidden border border-gray-300 max-w-sm">
             <input
               type="email"
               placeholder="Your email"
-              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-l-md focus:outline-none"
+              className="
+                flex-1 px-4 py-2 text-sm
+                outline-none bg-white
+              "
             />
             <button
               type="submit"
               className="
-                px-4 py-2 text-sm font-semibold rounded-r-md text-black
-                bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to
-                hover:opacity-90 transition
+                px-2 text-sm font-semibold
+                bg-brand-400 text-black
+                hover:bg-brand-400/90
+                transition
               "
             >
               Join
@@ -90,20 +101,18 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* BOTTOM BAR */}
+      {/* BOTTOM */}
       <div className="border-t">
         <div
           className="
-          max-w-7xl mx-auto
-          px-4 sm:px-6 lg:px-8
-          py-4
-          flex
-          flex-col sm:flex-row
-          items-center
-          justify-between
-          gap-3
-          text-sm text-gray-500
-        "
+            max-w-7xl mx-auto
+            px-6 md:px-8 lg:px-12
+            py-4
+            flex flex-col sm:flex-row
+            items-center justify-between
+            gap-3
+            text-xs text-gray-500
+          "
         >
           <span>
             © {new Date().getFullYear()} CLOTHING.CO — All rights reserved
@@ -111,7 +120,7 @@ export default function Footer() {
 
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-black">
-              Privacy Policy
+              Privacy
             </Link>
             <Link href="/terms" className="hover:text-black">
               Terms
