@@ -28,7 +28,7 @@ export default function Home() {
     <>
       <Navbar />
 
-      <main className="pt-6 space-y-24">
+      <main className=" space-y-24">
 
         {/* HERO */}
         <Hero />
