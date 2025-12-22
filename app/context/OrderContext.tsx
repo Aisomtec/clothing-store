@@ -24,7 +24,7 @@ export type Order = {
     addressLine: string;
   };
   total: number;
-  paymentMethod: "COD" | "ONLINE";
+  paymentMethod: "COD" | "UPI" | "CARD";
   status: "PLACED";
   createdAt: number;
 };
