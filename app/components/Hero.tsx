@@ -7,8 +7,8 @@ export default function Hero() {
   return (
     <section className="relative bg-white overflow-visible border-b">
       {/* Soft background accents */}
-      <div className="absolute -top-32 -left-32 w-[420px] h-[420px] bg-yellow-200/40 rounded-full blur-3xl" />
-      <div className="absolute top-40 -right-32 w-[360px] h-[360px] bg-yellow-300/30 rounded-full blur-3xl" />
+      {/* <div className="absolute -top-32 -left-32 w-[420px] h-[420px] bg-yellow-200/40 rounded-full blur-3xl" />
+      <div className="absolute top-40 -right-32 w-[360px] h-[360px] bg-yellow-300/30 rounded-full blur-3xl" /> */}
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-12 py-16 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
         

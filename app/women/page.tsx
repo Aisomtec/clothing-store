@@ -323,7 +323,7 @@ export default function MenPage() {
                 <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-yellow-400">
                   T-Shirts
                 </span>
-              </h1>
+              </h1> 
             </div>
 
 
@@ -378,7 +378,7 @@ export default function MenPage() {
           {/* MOBILE & TABLET */}
           <div className="lg:hidden">
             <p className="text-sm font-semibold uppercase text-gray-500">
-              Men
+              Women
             </p>
             <h1 className="text-3xl font-extrabold">
               Premium{" "}
@@ -390,13 +390,6 @@ export default function MenPage() {
 
         </div>
       </section>
-
-
-
-
-
-
-
 
       {/* DESKTOP */}
       <section className="hidden lg:block">

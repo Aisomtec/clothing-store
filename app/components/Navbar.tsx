@@ -28,21 +28,21 @@ export default function Navbar() {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [showNav, setShowNav] = useState(true);
+  // const [showNav, setShowNav] = useState(true);
   const [localSearch, setLocalSearch] = useState(searchQuery);
 
-  const lastScrollY = useRef(0);
+  // const lastScrollY = useRef(0);
 
   /* ---------------- SCROLL SHOW / HIDE ---------------- */
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setShowNav(y < lastScrollY.current || y < 80);
-      lastScrollY.current = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // useEffect(() => {
+  //   const onScroll = () => {
+  //     const y = window.scrollY;
+  //     setShowNav(y < lastScrollY.current || y < 80);
+  //     lastScrollY.current = y;
+  //   };
+  //   window.addEventListener("scroll", onScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", onScroll);
+  // }, []);
 
   /* ---------------- CLOSE MENUS ON ROUTE CHANGE ---------------- */
   useEffect(() => {
@@ -62,10 +62,8 @@ export default function Navbar() {
   return (
     <>
       {/* ================= HEADER ================= */}
-      <header
-        className={`fixed top-0 inset-x-0 z-50 bg-white border-b transition-transform duration-300 ${showNav ? "translate-y-0" : "-translate-y-full"
-          }`}
-      >
+      <header className="fixed top-0 inset-x-0 z-50 bg-white border-b">
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           {/* LOGO */}
           <Link

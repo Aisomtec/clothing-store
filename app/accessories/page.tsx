@@ -18,70 +18,64 @@ type Product = {
 };
 
 /* ---------------- CONSTANTS ---------------- */
-const MAX_PRICE = 2000;
+const MAX_PRICE = 3000;
 
-const CATEGORY_OPTIONS = [
-  "Caps",
-  "Bags",
-  "Socks",
-  "Belts",
-  "Wallets",
-  "Perfumes",
-];
+const CATEGORY_OPTIONS = ["Perfumes", "Caps", "Bracelets"];
 
 /* ---------------- PRODUCTS ---------------- */
 const accessoriesProducts: Product[] = [
   {
-    id: 201,
-    title: "Classic Baseball Cap",
-    price: 499,
-    mrp: 699,
-    image: "/accessories/cap.png",
-    category: ["Caps"],
-    badge: "NEW",
-  },
-  {
-    id: 202,
-    title: "Minimal Canvas Tote Bag",
-    price: 899,
-    mrp: 1199,
-    image: "/accessories/tote.png",
-    category: ["Bags"],
-  },
-  {
-    id: 203,
-    title: "Premium Crew Socks (Pack of 3)",
-    price: 399,
-    image: "/accessories/socks.png",
-    category: ["Socks"],
-    badge: "SALE",
-  },
-  {
-    id: 204,
-    title: "Leather Finish Belt",
-    price: 699,
-    mrp: 999,
-    image: "/accessories/belt.png",
-    category: ["Belts"],
-  },
-  {
-    id: 205,
-    title: "Slim Everyday Wallet",
-    price: 799,
-    image: "/accessories/wallet.png",
-    category: ["Wallets"],
-    badge: "NEW",
-  },
-  {
-    id: 206,
-    title: "Classic Eau de perfume",
-    price: 499,
-    mrp: 699,
-    image: "/accessories/perfume.png",
+    id: 301,
+    title: "Signature Eau De Parfum",
+    price: 1499,
+    mrp: 1999,
+    image: "/accessories/perfume-1.png",
     category: ["Perfumes"],
     badge: "NEW",
   },
+  {
+    id: 302,
+    title: "Midnight Oud Perfume",
+    price: 1799,
+    mrp: 2299,
+    image: "/accessories/perfume-2.png",
+    category: ["Perfumes"],
+  },
+  {
+    id: 303,
+    title: "Classic Black Cap",
+    price: 499,
+    mrp: 699,
+    image: "/accessories/cap-1.png",
+    category: ["Caps"],
+    badge: "SALE",
+  },
+  {
+    id: 304,
+    title: "Minimal Logo Cap",
+    price: 599,
+    image: "/accessories/cap-2.png",
+    category: ["Caps"],
+  },
+  {
+    id: 305,
+    title: "Stainless Steel Bracelet",
+    price: 899,
+    mrp: 1199,
+    image: "/accessories/bracelet-1.png",
+    category: ["Bracelets"],
+    badge: "NEW",
+  },
+  {
+    id: 306,
+    title: "Matte Black Chain Bracelet",
+    price: 1099,
+    image: "/accessories/bracelet-2.png",
+    category: ["Bracelets"],
+  },
 ];
+
+/* ================================================= */
 
 export default function AccessoriesPage() {
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
@@ -102,8 +96,8 @@ export default function AccessoriesPage() {
         sortBy === "low-high"
           ? a.price - b.price
           : sortBy === "high-low"
-          ? b.price - a.price
-          : 0
+            ? b.price - a.price
+            : 0
       );
   }, [maxPrice, selectedCategories, sortBy]);
 
@@ -139,14 +133,11 @@ export default function AccessoriesPage() {
                       : [...prev, cat]
                   )
                 }
-                className={`
-                  px-4 py-2 rounded-full border text-sm font-semibold transition
-                  ${
-                    active
-                      ? "bg-yellow-300 text-black border-yellow-400 shadow-sm"
-                      : "bg-white text-gray-800 border-yellow-300 hover:border-yellow-400"
-                  }
-                `}
+                className={`px-4 py-2 rounded-full border text-sm font-semibold transition
+                  ${active
+                    ? "bg-yellow-400 text-black border-yellow-400"
+                    : "bg-white border-yellow-300 hover:border-yellow-400"
+                  }`}
               >
                 {cat}
               </button>
@@ -167,55 +158,62 @@ export default function AccessoriesPage() {
     <>
       <Navbar />
 
-      {/* ---------------- HERO ---------------- */}
-      <section className="border-b bg-white">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <p className="text-sm font-semibold uppercase text-gray-500">
-            Accessories
-          </p>
-          <h1 className="text-4xl font-extrabold leading-tight">
-            Everyday{" "}
-            <span className="bg-gradient-to-r from-brandGradient-from via-brandGradient-via to-brandGradient-to bg-clip-text text-yellow-400">
-              Essentials
-            </span>
-          </h1>
-        </div>
-      </section>
 
-      {/* ---------------- DESKTOP ---------------- */}
+
+      {/* ================= DESKTOP L-FRAME ================= */}
       <section className="hidden lg:block">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex justify-end sticky top-[88px] bg-white z-20 py-4">
-            <select
-              onChange={(e) => setSortBy(e.target.value)}
-              className="border px-4 py-2 rounded-md text-sm"
-            >
-              <option value="">Sort By</option>
-              <option value="low-high">Price: Low to High</option>
-              <option value="high-low">Price: High to Low</option>
-            </select>
-          </div>
+        <div className="fixed inset-0 top-16 flex">
 
-          <div className="grid grid-cols-[280px_1fr] gap-10">
-            <aside className="sticky top-[140px] h-[calc(100vh-140px)]">
-              <div className="border rounded-xl p-6 bg-white h-full overflow-y-auto">
-                <Filters />
-              </div>
-            </aside>
-
-            <div className="h-[calc(100vh-160px)] overflow-y-auto pr-2">
-              <div className="grid grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
-                {filteredProducts.map((p) => (
-                  <ProductCard key={p.id} {...p} />
-                ))}
-              </div>
+          {/* LEFT FILTER FRAME */}
+          <aside className="w-[280px] border-r bg-white">
+            <div className="h-full overflow-y-auto p-6">
+              <Filters />
             </div>
+          </aside>
+
+          {/* RIGHT SCROLL WINDOW */}
+
+
+      {/* ================= HERO ================= */}
+
+          <div className="flex-1 overflow-y-auto px-6">
+            <section className="border-b bg-white">
+              <div className="max-w-7xl mx-auto px-6 py-8">
+                <p className="text-sm font-semibold uppercase text-gray-500">
+                  Accessories
+                </p>
+                <h1 className="text-4xl font-extrabold">
+                  <span className="text-yellow-400">Essentials</span>
+                </h1>
+              </div>
+            </section>
+
+            {/* SORT */}
+            <div className="flex justify-end py-4 sticky top-0 bg-white z-10">
+              <select
+                onChange={(e) => setSortBy(e.target.value)}
+                className="border px-4 py-2 rounded-md text-sm"
+              >
+                <option value="">Sort By</option>
+                <option value="low-high">Price: Low to High</option>
+                <option value="high-low">Price: High to Low</option>
+              </select>
+            </div>
+
+            {/* PRODUCTS */}
+            <div className="grid grid-cols-3 xl:grid-cols-4 gap-6 pb-24">
+              {filteredProducts.map((p) => (
+                <ProductCard key={p.id} {...p} />
+              ))}
+            </div>
+
+            <Footer />
           </div>
         </div>
       </section>
 
-      {/* ---------------- MOBILE ---------------- */}
-      <section className="lg:hidden px-4">
+      {/* ================= MOBILE ================= */}
+      <section className="lg:hidden px-4 py-6">
         <div className="grid grid-cols-2 gap-4">
           {filteredProducts.map((p) => (
             <ProductCard key={p.id} {...p} />
@@ -245,8 +243,6 @@ export default function AccessoriesPage() {
           </div>
         </div>
       )}
-
-      <Footer />
     </>
   );
 }
