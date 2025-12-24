@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
@@ -17,75 +17,59 @@ type Product = {
   badge?: "NEW" | "SALE" | "";
 };
 
+/* ---------------- BACKEND TYPE ---------------- */
+type BackendProduct = {
+  id: number;
+  name: string;
+  price: string;
+  discount_price?: string | null;
+  image?: string | null;
+  category?: string[];
+};
+
 /* ---------------- CONSTANTS ---------------- */
 const MAX_PRICE = 3000;
-
 const CATEGORY_OPTIONS = ["Perfumes", "Caps", "Bracelets"];
-
-/* ---------------- PRODUCTS ---------------- */
-const accessoriesProducts: Product[] = [
-  {
-    id: 301,
-    title: "Signature Eau De Parfum",
-    price: 1499,
-    mrp: 1999,
-    image: "/accessories/perfume-1.png",
-    category: ["Perfumes"],
-    badge: "NEW",
-  },
-  {
-    id: 302,
-    title: "Midnight Oud Perfume",
-    price: 1799,
-    mrp: 2299,
-    image: "/accessories/perfume-2.png",
-    category: ["Perfumes"],
-  },
-  {
-    id: 303,
-    title: "Classic Black Cap",
-    price: 499,
-    mrp: 699,
-    image: "/accessories/cap-1.png",
-    category: ["Caps"],
-    badge: "SALE",
-  },
-  {
-    id: 304,
-    title: "Minimal Logo Cap",
-    price: 599,
-    image: "/accessories/cap-2.png",
-    category: ["Caps"],
-  },
-  {
-    id: 305,
-    title: "Stainless Steel Bracelet",
-    price: 899,
-    mrp: 1199,
-    image: "/accessories/bracelet-1.png",
-    category: ["Bracelets"],
-    badge: "NEW",
-  },
-  {
-    id: 306,
-    title: "Matte Black Chain Bracelet",
-    price: 1099,
-    image: "/accessories/bracelet-2.png",
-    category: ["Bracelets"],
-  },
-];
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 /* ================================================= */
 
 export default function AccessoriesPage() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
   const [sortBy, setSortBy] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
-  /* ---------------- FILTER LOGIC ---------------- */
+  /* ---------------- FETCH FROM BACKEND ---------------- */
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch(`${API_BASE}/api/products/`);
+        const data: BackendProduct[] = await res.json();
+
+        // Map backend → existing frontend structure
+        const mapped: Product[] = data.map((p) => ({
+          id: p.id,
+          title: p.name,
+          price: Number(p.discount_price ?? p.price),
+          mrp: Number(p.price),
+          image: p.image || "",
+          category: p.category || [],
+        }));
+
+        setProducts(mapped);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  /* ---------------- FILTER LOGIC (UNCHANGED) ---------------- */
   const filteredProducts = useMemo(() => {
-    return accessoriesProducts
+    return products
       .filter(
         (p) =>
           p.price <= maxPrice &&
@@ -96,12 +80,12 @@ export default function AccessoriesPage() {
         sortBy === "low-high"
           ? a.price - b.price
           : sortBy === "high-low"
-            ? b.price - a.price
-            : 0
+          ? b.price - a.price
+          : 0
       );
-  }, [maxPrice, selectedCategories, sortBy]);
+  }, [products, maxPrice, selectedCategories, sortBy]);
 
-  /* ---------------- FILTER PANEL ---------------- */
+  /* ---------------- FILTER PANEL (UNCHANGED) ---------------- */
   const Filters = () => (
     <div className="space-y-8 text-sm">
       <div className="flex justify-between border-b pb-3">
@@ -134,9 +118,10 @@ export default function AccessoriesPage() {
                   )
                 }
                 className={`px-4 py-2 rounded-full border text-sm font-semibold transition
-                  ${active
-                    ? "bg-yellow-400 text-black border-yellow-400"
-                    : "bg-white border-yellow-300 hover:border-yellow-400"
+                  ${
+                    active
+                      ? "bg-yellow-400 text-black border-yellow-400"
+                      : "bg-white border-yellow-300 hover:border-yellow-400"
                   }`}
               >
                 {cat}
@@ -158,12 +143,9 @@ export default function AccessoriesPage() {
     <>
       <Navbar />
 
-
-
       {/* ================= DESKTOP L-FRAME ================= */}
       <section className="hidden lg:block">
         <div className="fixed inset-0 top-16 flex">
-
           {/* LEFT FILTER FRAME */}
           <aside className="w-[280px] border-r bg-white">
             <div className="h-full overflow-y-auto p-6">
@@ -172,10 +154,6 @@ export default function AccessoriesPage() {
           </aside>
 
           {/* RIGHT SCROLL WINDOW */}
-
-
-      {/* ================= HERO ================= */}
-
           <div className="flex-1 overflow-y-auto px-6">
             <section className="border-b bg-white">
               <div className="max-w-7xl mx-auto px-6 py-8">

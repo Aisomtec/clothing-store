@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "../components/ProductCard";
@@ -8,19 +8,22 @@ import PriceRangeSlider from "../components/PriceRangeSlider";
 import { useShop } from "../context/ShopContext";
 
 /* ---------------- TYPES ---------------- */
+type BackendProduct = {
+  id: number;
+  name: string;
+  price: number;
+  mrp?: number;
+  image: string;
+  badge?: "NEW" | "SALE" | "";
+  subcategory: string;
+};
+
 type Product = {
   id: number;
   title: string;
   price: number;
   mrp?: number;
-  rating?: number;
-  reviews?: number;
   image: string;
-  hoverImage?: string;
-  color: string;
-  colors?: string[];
-  fit: string;
-  size: string[];
   category: string[];
   badge?: "NEW" | "SALE" | "";
 };
@@ -29,82 +32,51 @@ type Product = {
 const MAX_PRICE = 1500;
 const CATEGORY_OPTIONS = ["Round Neck", "Polo", "Oversized", "Sports", "Casual"];
 
-/* ---------------- PRODUCTS ---------------- */
-const menProducts: Product[] = [
-  {
-    id: 1,
-    title: "Classic Tee - White",
-    price: 799,
-    mrp: 999,
-    rating: 4.4,
-    reviews: 184,
-    image: "/men/classic-white.png",
-    color: "White",
-    fit: "Regular",
-    size: ["S", "M", "L"],
-    category: ["Round Neck", "Casual"],
-    badge: "SALE",
-  },
-  {
-    id: 2,
-    title: "Oversized Black Tee",
-    price: 999,
-    mrp: 1299,
-    rating: 4.6,
-    reviews: 231,
-    image: "/men/oversized-tee.png",
-    color: "Black",
-    fit: "Oversized",
-    size: ["M", "L", "XL"],
-    category: ["Oversized", "Casual"],
-    badge: "NEW",
-  },
-  {
-    id: 3,
-    title: "Premium Cotton Tee",
-    price: 1199,
-    mrp: 1499,
-    rating: 4.5,
-    reviews: 96,
-    image: "/men/premium-cotton.png",
-    color: "Brown",
-    fit: "Regular",
-    size: ["M", "L", "XL"],
-    category: ["Round Neck"],
-    badge: "SALE",
-  },
-  {
-    id: 4,
-    title: "Street Fit Charcoal Tee",
-    price: 1099,
-    mrp: 1399,
-    rating: 4.6,
-    reviews: 158,
-    image: "/men/charcoal-tee.png",
-    color: "Black",
-    fit: "Oversized",
-    size: ["L", "XL"],
-    category: ["Oversized", "Sports"],
-    badge: "NEW",
-  },
-];
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:8000";
 
 /* ================================================= */
 
 export default function MenPage() {
   const { searchQuery } = useShop();
 
+  const [products, setProducts] = useState<Product[]>([]);
   const [maxPrice, setMaxPrice] = useState(MAX_PRICE);
   const [sortBy, setSortBy] = useState("");
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [mobileSortOpen, setMobileSortOpen] = useState(false);
 
+  /* ---------------- FETCH MEN PRODUCTS ---------------- */
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch(`${API_BASE}/api/products/?category=men`);
+        const data: BackendProduct[] = await res.json();
+
+        const mapped = data.map((p) => ({
+          id: p.id,
+          title: p.name,
+          price: p.price,
+          mrp: p.mrp,
+          image: p.image,
+          category: [p.subcategory],
+          badge: p.badge || "",
+        }));
+
+        setProducts(mapped);
+      } catch (err) {
+        console.error("Failed to fetch men products", err);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
   /* ---------------- FILTER LOGIC ---------------- */
   const filteredProducts = useMemo(() => {
     const q = searchQuery.toLowerCase().trim();
 
-    return menProducts
+    return products
       .filter(
         (p) =>
           p.price <= maxPrice &&
@@ -116,10 +88,10 @@ export default function MenPage() {
         sortBy === "low-high"
           ? a.price - b.price
           : sortBy === "high-low"
-            ? b.price - a.price
-            : 0
+          ? b.price - a.price
+          : 0
       );
-  }, [searchQuery, maxPrice, selectedCategories, sortBy]);
+  }, [products, maxPrice, selectedCategories, sortBy, searchQuery]);
 
   /* ---------------- FILTER PANEL ---------------- */
   const Filters = () => (
@@ -153,9 +125,10 @@ export default function MenPage() {
                   )
                 }
                 className={`px-4 py-2 rounded-full border text-sm font-semibold
-                  ${active
-                    ? "bg-yellow-400 text-black border-yellow-400"
-                    : "border-yellow-300 hover:border-yellow-400"
+                  ${
+                    active
+                      ? "bg-yellow-400 text-black border-yellow-400"
+                      : "border-yellow-300 hover:border-yellow-400"
                   }`}
               >
                 {cat}
@@ -179,7 +152,6 @@ export default function MenPage() {
       {/* ================= DESKTOP L-FRAME ================= */}
       <section className="hidden lg:block">
         <div className="fixed inset-0 top-16 flex bg-white">
-
           {/* LEFT FILTER FRAME */}
           <aside className="w-[280px] border-r">
             <div className="h-full overflow-y-auto p-6">
@@ -189,15 +161,13 @@ export default function MenPage() {
 
           {/* RIGHT SCROLL WINDOW */}
           <div className="flex-1 overflow-y-auto">
-
             {/* HERO */}
             <section className="border-b px-8 py-8">
               <p className="text-sm font-semibold uppercase text-gray-500">
                 Men
               </p>
               <h1 className="text-4xl font-extrabold">
-                Premium{" "}
-                <span className="text-yellow-400">T-Shirts</span>
+                Premium <span className="text-yellow-400">T-Shirts</span>
               </h1>
             </section>
 
@@ -225,7 +195,7 @@ export default function MenPage() {
         </div>
       </section>
 
-      {/* ================= MOBILE / TABLET ================= */}
+      {/* ================= MOBILE ================= */}
       <section className="lg:hidden px-4 py-6 pb-24">
         <div className="mb-6">
           <p className="text-xs uppercase text-gray-500">Men</p>
