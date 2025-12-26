@@ -1,3 +1,4 @@
+
 import { auth } from "@/lib/firebase";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";

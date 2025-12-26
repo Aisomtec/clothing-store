@@ -47,6 +47,7 @@ class SubCategory(models.Model):
 # ---------------------------------
 # PRODUCT
 # ---------------------------------
+
 class Product(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
@@ -57,8 +58,25 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
+    # FILTER FIELDS (PLP)
+    size = models.JSONField(default=list, blank=True)               # ["S","M","L"]
+    fit = models.CharField(max_length=50, blank=True, null=True)    # Oversized, Regular...
+    colors = models.JSONField(default=list, blank=True)             # ["Black","White","Red"]
+    badge = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        choices=[("NEW","NEW"),("SALE","SALE")]
+    )
+
+    # IMAGES
     image = models.ImageField(upload_to="products/", null=True, blank=True)
+    hover_image = models.ImageField(upload_to="products/", null=True, blank=True)
+
+    # STATUS
+    in_stock = models.BooleanField(default=True)
     is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):

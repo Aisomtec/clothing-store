@@ -23,6 +23,11 @@ ALLOWED_HOSTS = [
 # APPLICATIONS
 # --------------------------------------------------
 INSTALLED_APPS = [
+    # 🌟 Custom Admin UI (must be FIRST)
+    'admin_interface',
+    'colorfield',
+
+    # 🌐 Default Django Admin
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -35,7 +40,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     # Local apps
-    'apps.products.apps.ProductsConfig',
+    'apps.products',
 ]
 
 
@@ -149,3 +154,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS (FOR NEXT.JS FRONTEND)
 # --------------------------------------------------
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]

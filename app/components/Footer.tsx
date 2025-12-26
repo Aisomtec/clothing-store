@@ -3,7 +3,7 @@ import { Instagram, Twitter, Facebook } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="mt-24 bg-white border-t-2 border-brand-400">
+    <footer className=" bg-white border-t-2 border-brand-400">
       {/* TOP */}
       <div
         className="
