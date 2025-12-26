@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from .models import Product
 
-
 class ProductSerializer(serializers.ModelSerializer):
+    category = serializers.CharField(source="category.name")
+    subcategory = serializers.CharField(source="subcategory.name")
     image = serializers.SerializerMethodField()
 
     class Meta:
@@ -13,7 +14,8 @@ class ProductSerializer(serializers.ModelSerializer):
             "slug",
             "price",
             "discount_price",
-            "description",
+            "category",
+            "subcategory",
             "image",
         ]
 
