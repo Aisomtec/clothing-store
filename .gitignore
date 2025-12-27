@@ -50,3 +50,9 @@ db.sqlite3
 # Environment
 .env*
 .env.local
+
+
+# FRONTEND DEPENDENCIES
+frontend/node_modules/
+frontend/.next/
+frontend/out/
